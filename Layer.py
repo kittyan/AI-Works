@@ -61,3 +61,24 @@ class Sigoid:
 
     def Backword(self, dout):
         return dout * (1.0 - self.out) * self.out
+
+
+class Affine:
+    def __init__(self, W, b):
+        self.W = W
+        self.b = b
+        self.x = None
+        self.dW = None
+        self.db = None
+
+    def Forword(self, x):
+        self.x = x
+
+        return np.dot(x, self.W) + self.b
+
+    def Backword(self, dout):
+        dx = np.dot(dout, self.W.T)
+        self.dW = np.dot(self.x.T, dout)
+        self.db = np.sum(dout, exis=0)
+
+        return dx
